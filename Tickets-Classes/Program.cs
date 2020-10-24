@@ -210,7 +210,24 @@ namespace Tickets_Classes
                         break;
                     //search submitter
                     case 9:
+                        Console.WriteLine("What is the submitter you are looking for?");
+                        searchChoice = Console.ReadLine();
+                        var submitterSearchFile = ticketFile.Ticket.Where(t => t.submitter.Contains($"{searchChoice}"));
+                        var submitterSearchEn = enhancementsFile.Enhancement.Where(e => e.submitter.Contains($"{searchChoice}"));
+                        var submitterSearchTask = taskFile.Task.Where(e => e.submitter.Contains($"{searchChoice}"));
 
+                        totalFound = submitterSearchFile.Count() + submitterSearchEn.Count() + submitterSearchTask.Count();
+                        Console.WriteLine($"There are {totalFound} matches found for \"{searchChoice}\".");
+                        foreach(Ticket t in submitterSearchFile){
+                            Console.WriteLine($"{t.Display()}");
+                        }
+                        foreach(Enhancements e in submitterSearchEn){
+                            Console.WriteLine($"{e.Display()}");
+                        }
+                        foreach(Tasks a in submitterSearchTask){
+                            Console.WriteLine($"{a.Display()}");
+                        }
+                        break;
                     default:
                         break;
                 }
