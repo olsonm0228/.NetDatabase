@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.IO;
 
@@ -11,6 +12,8 @@ namespace Tickets_Classes
             string fileEn = "enhancements.csv";
             string fileTa = "task.csv";
             Int16 choice;
+            Int32 totalFound;
+            String searchChoice;
             String watchingChoice;
             TicketFile ticketFile = new TicketFile(fileTi);
             EnhancementsFile enhancementsFile = new EnhancementsFile(fileEn);
@@ -167,19 +170,31 @@ namespace Tickets_Classes
                         break;
                     //seach status
                     case 7:
-                        foreach(Tasks t in taskFile.Task){
-                            Console.WriteLine(t.Display());
+                        Console.WriteLine("What is the title of the movie you want?");
+                        searchChoice = Console.ReadLine();
+                        var statusSearchFile = ticketFile.Ticket.Where(t => t.submitter.Contains($"{searchChoice}"));
+                        var statusSearchEn = enhancementsFile.Enhancement.Where(e => e.submitter.Contains($"{searchChoice}"));
+                        var statusSearchTask = taskFile.Task.Where(e => e.submitter.Contains($"{searchChoice}"));
+
+                        totalFound = statusSearchFile.Count() + statusSearchEn.Count() + statusSearchTask.Count();
+                        Console.WriteLine($"There are {totalFound} matches found for \"{searchChoice}\".");
+                        foreach(Ticket t in statusSearchFile){
+                            Console.WriteLine($"{t.Display()}");
                         }
+                        foreach(Enhancements e in statusSearchEn){
+                            Console.WriteLine($"{e.Display()}");
+                        }
+                        foreach(Tasks a in statusSearchTask){
+                            Console.WriteLine($"{a.Display()}");
+                        }
+
                         break;
                     //search priority
                     case 8:
-                        foreach(Tasks t in taskFile.Task){
-                            Console.WriteLine(t.Display());
-                        }
-                        break;
+
                     //search submitter
                     case 9:
-                        
+
                     default:
                         break;
                 }

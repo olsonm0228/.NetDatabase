@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\SchoolStuff\\C#Database\\Tickets-Classes\\Tickets.csproj",
+      "projectUniqueName": "C:\\SchoolStuff\\.NetDatabase\\Tickets-Classes\\Tickets.csproj",
       "projectName": "Tickets",
-      "projectPath": "C:\\SchoolStuff\\C#Database\\Tickets-Classes\\Tickets.csproj",
+      "projectPath": "C:\\SchoolStuff\\.NetDatabase\\Tickets-Classes\\Tickets.csproj",
       "packagesPath": "C:\\Users\\feoni\\.nuget\\packages\\",
-      "outputPath": "C:\\SchoolStuff\\C#Database\\Tickets-Classes\\obj\\",
+      "outputPath": "C:\\SchoolStuff\\.NetDatabase\\Tickets-Classes\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\feoni\\AppData\\Roaming\\NuGet\\NuGet.Config",

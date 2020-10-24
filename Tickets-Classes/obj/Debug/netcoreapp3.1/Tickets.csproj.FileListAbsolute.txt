@@ -24,3 +24,16 @@ C:\SchoolStuff\C#Database\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.runtim
 C:\SchoolStuff\C#Database\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.dll
 C:\SchoolStuff\C#Database\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.pdb
 C:\SchoolStuff\C#Database\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.genruntimeconfig.cache
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.exe
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.deps.json
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.runtimeconfig.json
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.runtimeconfig.dev.json
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.dll
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\bin\Debug\netcoreapp3.1\Tickets.pdb
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.csprojAssemblyReference.cache
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.AssemblyInfoInputs.cache
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.AssemblyInfo.cs
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.csproj.CoreCompileInputs.cache
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.dll
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.pdb
+C:\SchoolStuff\.NetDatabase\Tickets-Classes\obj\Debug\netcoreapp3.1\Tickets.genruntimeconfig.cache
