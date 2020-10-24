@@ -170,11 +170,11 @@ namespace Tickets_Classes
                         break;
                     //seach status
                     case 7:
-                        Console.WriteLine("What is the title of the movie you want?");
+                        Console.WriteLine("What is the status you are looking for?");
                         searchChoice = Console.ReadLine();
-                        var statusSearchFile = ticketFile.Ticket.Where(t => t.submitter.Contains($"{searchChoice}"));
-                        var statusSearchEn = enhancementsFile.Enhancement.Where(e => e.submitter.Contains($"{searchChoice}"));
-                        var statusSearchTask = taskFile.Task.Where(e => e.submitter.Contains($"{searchChoice}"));
+                        var statusSearchFile = ticketFile.Ticket.Where(t => t.status.Contains($"{searchChoice}"));
+                        var statusSearchEn = enhancementsFile.Enhancement.Where(e => e.status.Contains($"{searchChoice}"));
+                        var statusSearchTask = taskFile.Task.Where(e => e.status.Contains($"{searchChoice}"));
 
                         totalFound = statusSearchFile.Count() + statusSearchEn.Count() + statusSearchTask.Count();
                         Console.WriteLine($"There are {totalFound} matches found for \"{searchChoice}\".");
@@ -187,11 +187,27 @@ namespace Tickets_Classes
                         foreach(Tasks a in statusSearchTask){
                             Console.WriteLine($"{a.Display()}");
                         }
-
                         break;
                     //search priority
                     case 8:
+                        Console.WriteLine("What is the priority you are looking for?");
+                        searchChoice = Console.ReadLine();
+                        var prioritySearchFile = ticketFile.Ticket.Where(t => t.priority.Contains($"{searchChoice}"));
+                        var prioritySearchEn = enhancementsFile.Enhancement.Where(e => e.priority.Contains($"{searchChoice}"));
+                        var prioritySearchTask = taskFile.Task.Where(e => e.priority.Contains($"{searchChoice}"));
 
+                        totalFound = prioritySearchFile.Count() + prioritySearchEn.Count() + prioritySearchTask.Count();
+                        Console.WriteLine($"There are {totalFound} matches found for \"{searchChoice}\".");
+                        foreach(Ticket t in prioritySearchFile){
+                            Console.WriteLine($"{t.Display()}");
+                        }
+                        foreach(Enhancements e in prioritySearchEn){
+                            Console.WriteLine($"{e.Display()}");
+                        }
+                        foreach(Tasks a in prioritySearchTask){
+                            Console.WriteLine($"{a.Display()}");
+                        }
+                        break;
                     //search submitter
                     case 9:
 
