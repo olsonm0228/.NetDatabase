@@ -165,7 +165,23 @@ namespace Tickets_Classes
                             Console.WriteLine("File does not exist");
                         }
                         break;
-                    
+                    //seach status
+                    case 7:
+                        foreach(Tasks t in taskFile.Task){
+                            Console.WriteLine(t.Display());
+                        }
+                        break;
+                    //search priority
+                    case 8:
+                        foreach(Tasks t in taskFile.Task){
+                            Console.WriteLine(t.Display());
+                        }
+                        break;
+                    //search submitter
+                    case 9:
+                        
+                    default:
+                        break;
                 }
             } while (choice> 0 && choice < 7);
         }
