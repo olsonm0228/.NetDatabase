@@ -231,7 +231,7 @@ namespace Tickets_Classes
                     default:
                         break;
                 }
-            } while (choice> 0 && choice < 7);
+            } while (choice> 0 && choice < 10);
         }
     }
 }
