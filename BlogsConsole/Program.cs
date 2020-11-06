@@ -13,7 +13,8 @@ namespace BlogsConsole
         {
 
             logger.Info("Program started");
-            String choice;
+            String menuChoice;
+            int idChoice;
             Boolean loop = true;
             var db = new BloggingContext();
 
@@ -28,9 +29,9 @@ namespace BlogsConsole
                     Console.WriteLine("4) Display Posts");
                     Console.WriteLine("Enter q to quit");
                     logger.Info("User input taken");
-                    choice = Console.ReadLine();
+                    menuChoice = Console.ReadLine();
                     //todo errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    switch(choice){
+                    switch(menuChoice){
                         case "1":
                             logger.Info("1) selected");
                             // Display all Blogs from the database
@@ -62,16 +63,37 @@ namespace BlogsConsole
                             logger.Info("3) selected");
                             // Display all Blogs from the database
                             Console.WriteLine("Select the blog you would like to post to:");
-                            var queryBlog = db.Blogs.OrderBy(b => b.BlogId);
+                            var queryBlogPost = db.Blogs.OrderBy(b => b.BlogId);
 
-                            foreach (var item in queryBlog)
+                            foreach (var item in queryBlogPost)
                             {
                                 Console.WriteLine(item.BlogId +") "+ item.Name);
                             }
+                            try{
+                                idChoice = Int16.Parse(Console.ReadLine());
+                                //todo create post here
+                            }catch{
+                                logger.Error("Invalid Blog ID");
+                            }
+
                             //todo ask what they want to post to and add a post
                             break;
                         case "4":
                             logger.Info("4) selected");
+                            // Display all Blogs from the database
+                            Console.WriteLine("Select the blog you would like to post to:");
+                            var queryBlogDisplay = db.Blogs.OrderBy(b => b.BlogId);
+
+                            foreach (var item in queryBlogDisplay)
+                            {
+                                Console.WriteLine(item.BlogId +") "+ item.Name);
+                            }
+                            try{
+                                idChoice = Int16.Parse(Console.ReadLine());
+                                //todo display posts here
+                            }catch{
+                                logger.Error("Invalid Blog ID");
+                            }
                             //todo display posts on a blog after they select a blog
                             break;
                         default:
