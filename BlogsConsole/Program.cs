@@ -23,6 +23,7 @@ namespace BlogsConsole
             {
                 do
                 {
+                    Console.WriteLine("Enter your selection:");
                     Console.WriteLine("1) Display all blogs");
                     Console.WriteLine("2) Add Blog");
                     Console.WriteLine("3) Create Post");
@@ -30,7 +31,7 @@ namespace BlogsConsole
                     Console.WriteLine("Enter q to quit");
                     logger.Info("User input taken");
                     menuChoice = Console.ReadLine();
-                    //todo errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                     switch(menuChoice){
                         case "1":
                             logger.Info("1) selected");
@@ -96,20 +97,42 @@ namespace BlogsConsole
                         case "4":
                             logger.Info("4) selected");
                             // Display all Blogs from the database
-                            Console.WriteLine("Select the blog you would like to post to:");
+                            Console.WriteLine("Select the blog's posts to display");
                             var queryBlogDisplay = db.Blogs.OrderBy(b => b.BlogId);
-
+                            Console.WriteLine("0) Posts from all blogs");
                             foreach (var item in queryBlogDisplay)
                             {
                                 Console.WriteLine(item.BlogId +") "+ item.Name);
                             }
                             try{
                                 idChoice = Int16.Parse(Console.ReadLine());
-                                //todo display posts here
+                                if(idChoice == 0){
+                                    var postQuery = db.Posts.OrderBy(p => p.PostId);
+
+                                    Console.WriteLine(postQuery.Count() + " Blogs returned");
+                                    if(postQuery.Count() > 0){
+                                        foreach (var item in postQuery)
+                                        {
+                                            Console.WriteLine("Blog: " + item.Blog.Name);
+                                            Console.WriteLine("Title: " + item.Title);
+                                            Console.WriteLine("Content: " + item.Content);
+                                        }
+                                    }
+                                }else{
+                                    var postQuery = db.Posts.OrderBy(p => p.PostId).Where(p => p.BlogId == idChoice);
+                                    Console.WriteLine(postQuery.Count() + " Blogs returned");
+                                    if(postQuery.Count() > 0){
+                                        foreach (var item in postQuery)
+                                        {
+                                            Console.WriteLine("Blog: " + item.Blog.Name);
+                                            Console.WriteLine("Title: " + item.Title);
+                                            Console.WriteLine("Content: " + item.Content);
+                                        }
+                                    }
+                                }
                             }catch{
                                 logger.Error("Invalid Blog ID");
                             }
-                            //todo display posts on a blog after they select a blog
                             break;
                         default:
                             logger.Info("User has quit");
