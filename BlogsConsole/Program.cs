@@ -71,12 +71,27 @@ namespace BlogsConsole
                             }
                             try{
                                 idChoice = Int16.Parse(Console.ReadLine());
-                                //todo create post here
+                                var existingId = queryBlogPost.Where(i => i.BlogId == idChoice).Count();
+                                if(existingId > 0){
+                                    //Enter Title - check for title existing
+                                    Console.Write("Enter the Post title: ");
+                                    var postTitle = Console.ReadLine();
+                                    if(postTitle.Equals("")){
+                                        logger.Error("Post title cannot be null");
+                                    } else{
+                                        //Enter Content
+                                        Console.Write("Enter the Post content: ");
+                                        var postContent = Console.ReadLine();
+                                        var post = new Post{Title = postTitle, Content = postContent, BlogId = idChoice};
+                                        db.AddPost(post);
+                                        logger.Info("Post added - {postTitle}", postTitle);
+                                    }
+                                } else{
+                                    logger.Error("There are no Blogs saved with that Id");
+                                }
                             }catch{
                                 logger.Error("Invalid Blog ID");
                             }
-
-                            //todo ask what they want to post to and add a post
                             break;
                         case "4":
                             logger.Info("4) selected");
