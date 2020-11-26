@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\feoni\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\feoni\\.nuget\\packages"
+    ]
+  }
+}
