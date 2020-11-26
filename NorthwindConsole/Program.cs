@@ -133,11 +133,47 @@ namespace NorthwindConsole
 
                             break;
                         case "3": // Display all products - all, discontinued, or acitve
-                      
+                            logger.Info("3) selected");
+                            Console.WriteLine("1) All Products");
+                            Console.WriteLine("2) Discontinued Products");
+                            Console.WriteLine("3) Active Products");
+                            displayChoice = Console.ReadLine();
 
-
-                            
-
+                            switch (displayChoice){
+                                case "1":
+                                    logger.Info("All Products Displayed");
+                                    var query3 = db.Products.OrderBy(p => p.ProductName);
+                                    Console.WriteLine($"{query3.Count()} records returned");
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    foreach (var item in query3)
+                                    {
+                                        Console.WriteLine($"{item.ProductName}");
+                                    }
+                                    break;
+                                case "2":
+                                    logger.Info("Discontinued Products Displayed");
+                                    var queryDiscontinued = db.Products.OrderBy(p => p.ProductName).Where(p => p.Discontinued == true);
+                                    Console.WriteLine($"{queryDiscontinued.Count()} records returned");
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    foreach (var item in queryDiscontinued)
+                                    {
+                                        Console.WriteLine($"{item.ProductName}");
+                                    }
+                                    break;
+                                case "3":
+                                    logger.Info("Active Products Displayed");
+                                    var queryActive = db.Products.OrderBy(p => p.ProductName).Where(p => p.Discontinued == false);
+                                    Console.WriteLine($"{queryActive.Count()} records returned");
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    foreach (var item in queryActive)
+                                    {
+                                        Console.WriteLine($"{item.ProductName}");
+                                    }
+                                    break;
+                                default:
+                                    logger.Error("You did not enter a valid value");
+                                    break;
+                            }
                             break;
                         case "4": // Display specific product
                             logger.Info("4) selected");
