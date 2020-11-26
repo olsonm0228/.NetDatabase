@@ -22,6 +22,7 @@ namespace NorthwindConsole
                 var db = new NorthwindConsole_31_mdoContext();
                 int id = 0;
                 string choice;
+                String displayChoice;
                 do
                 {
                     //todo use nlog
@@ -50,14 +51,93 @@ namespace NorthwindConsole
                     switch(choice){
                         case "1": // Add Product
                             logger.Info("1) selected");
-                          
+                            var query1 = db.Categories.OrderBy(p => p.CategoryId);
+
+                            Console.WriteLine("Select the category you want to add a product to:");
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            foreach (var item in query1)
+                            {
+                                Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                            }
+                            Console.ForegroundColor = ConsoleColor.White;
+                            id = int.Parse(Console.ReadLine());
+                            Console.Clear();
+                            logger.Info($"CategoryId {id} selected");
+
+                            if (db.Categories.Any(c => c.CategoryId == id))
+                            {
+                                logger.Info("Validation passed, category id exists");
+                                Products product = new Products();
+                                product.CategoryId = id;
+                                var querySupplier = db.Suppliers.OrderBy(p => p.SupplierId);
+
+                                Console.WriteLine("Select the supplier of your product:");
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                foreach (var item in querySupplier)
+                                {
+                                    Console.WriteLine($"{item.SupplierId}) {item.CompanyName}");
+                                }
+                                Console.ForegroundColor = ConsoleColor.White;
+                                id = int.Parse(Console.ReadLine());
+                                Console.Clear();
+                                logger.Info($"CategoryId {id} selected");
+
+                                if (db.Suppliers.Any(c => c.SupplierId == id))
+                                {
+                                    logger.Info("Validation passed, supplier id exists");
+                                    product.SupplierId = id;
+
+                                    Console.WriteLine("What is the products name?");
+                                    String productName = Console.ReadLine();
+                                    Console.WriteLine("What is the quantity per unit for this product?");
+                                    String quantityPerUnit = Console.ReadLine();
+                                    Console.WriteLine("What is the unit price for this product (##.##)?");
+                                    decimal unitPrice = decimal.Round(decimal.Parse(Console.ReadLine()),2);
+                                    Console.WriteLine("How many units are in stock (##)?");
+                                    short stock = short.Parse(Console.ReadLine());
+
+                                    if(productName.Equals("")||quantityPerUnit.Equals("")){
+                                        logger.Error("Empty values are not accepted");
+                                    } else{
+                                        if (db.Products.Any(c => c.ProductName == productName))
+                                        {
+                                            logger.Error("That product name already exists");
+                                        }
+                                        else
+                                        {
+                                            //setting default values for a new product
+                                            product.UnitsOnOrder = 0;
+                                            product.ReorderLevel = 0;
+                                            product.Discontinued = false;
+
+                                            product.ProductName = productName;
+                                            product.QuantityPerUnit = quantityPerUnit;
+                                            product.UnitPrice = unitPrice;
+                                            product.UnitsInStock = stock;
+
+                                            db.AddProduct(product);
+                                            logger.Info($"{product.ProductName} was added");
+                                        }
+                                    }
+                                } else {
+                                    logger.Error("There was not a supplier with that id");
+                                }
+                            }
+                            else
+                            {
+                                logger.Error("There was not a category with that id");
+                            }
                             break;
-                        case "2": // Edit a product
+                        case "2": // Edit a product ----------------------------------------------------------
                             logger.Info("2) selected");
 
                             break;
-                        case "3": // Display all products
-                            logger.Info("3) selected");
+                        case "3": // Display all products - all, discontinued, or acitve
+                      
+
+
+                            
+
                             break;
                         case "4": // Display specific product
                             logger.Info("4) selected");
@@ -91,6 +171,7 @@ namespace NorthwindConsole
                                     Console.WriteLine(category5.CategoryName +" "+category5.Description +"//");
                                     Console.WriteLine(category5.CategoryId);
                                     db.AddCategory(category5);
+                                    logger.Info($"{category5.CategoryName} was added");
                                 }
                             }
                             if (!isValid)
