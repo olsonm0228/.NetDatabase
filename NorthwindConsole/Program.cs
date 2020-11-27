@@ -131,7 +131,7 @@ namespace NorthwindConsole
                                 logger.Error("There was not a category with that id");
                             }
                             break;
-                        case "2": // Edit a product ----------------------------------------------------------
+                        case "2": // Edit a product
                             logger.Info("2) selected");
                             logger.Info("All Products Displayed");
                             var query2 = db.Products.OrderBy(p => p.ProductId);
@@ -333,10 +333,9 @@ namespace NorthwindConsole
                                 }
                                 else
                                 {
-                                    //todo figure out why this only works with console write line.... both of them
                                     logger.Info("Validation passed");
-                                    Console.WriteLine(category5.CategoryName +" "+category5.Description +"//");
-                                    Console.WriteLine(category5.CategoryId);
+                                    // Console.WriteLine(category5.CategoryName +" "+category5.Description +"//");
+                                    // Console.WriteLine(category5.CategoryId);
                                     db.AddCategory(category5);
                                     logger.Info($"{category5.CategoryName} was added");
                                 }
@@ -351,6 +350,36 @@ namespace NorthwindConsole
                             break;
                         case "6": //Edit A Category
                             logger.Info("6) selected");
+                            var query6 = db.Categories.OrderBy(p => p.CategoryName);
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            foreach (var item in query6)
+                            {
+                                Console.WriteLine($"{item.CategoryId}) {item.CategoryName}");
+                            }
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("Select a category to edit");
+                            id = int.Parse(Console.ReadLine());
+                            logger.Info($"Category id {id} selected to edit");
+                            Categories editCategory = db.Categories.FirstOrDefault(c => c.CategoryId == id);
+                            Console.WriteLine("Do you want to change the categories's name? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the name");
+                                Console.WriteLine("What is the new name?");
+                                choice = Console.ReadLine();
+                                editCategory.CategoryName = choice;
+                            }
+                            Console.WriteLine("Do you want to change the categories's description? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the description");
+                                Console.WriteLine("What is the new description?");
+                                choice = Console.ReadLine();
+                                editCategory.Description = choice;
+                            }
+                            db.EditCategory(editCategory);
+
                             break;
                         case "7": //Display Categories
                             logger.Info("7) selected");
