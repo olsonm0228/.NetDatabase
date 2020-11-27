@@ -16,6 +16,7 @@ namespace NorthwindConsole
         static void Main(string[] args)
         {
             logger.Info("Program started");
+            Console.ForegroundColor = ConsoleColor.Green;
 
             try
             {
@@ -23,6 +24,8 @@ namespace NorthwindConsole
                 int id = 0;
                 string choice;
                 String displayChoice;
+                short shortChoice;
+                decimal decimalChoice;
                 do
                 {
                     //todo use nlog
@@ -42,7 +45,7 @@ namespace NorthwindConsole
                     Console.WriteLine("6) Edit A Category");
                     Console.WriteLine("7) Display Categories");
                     Console.WriteLine("8) Display Category and related products");
-                    Console.WriteLine("9) Display all Categories and their related products");
+                    Console.WriteLine("9) Display all Categories and their related active products");
                     Console.WriteLine("\"q\" to quit");
                     choice = Console.ReadLine();
                     Console.Clear();
@@ -130,6 +133,99 @@ namespace NorthwindConsole
                             break;
                         case "2": // Edit a product ----------------------------------------------------------
                             logger.Info("2) selected");
+                            logger.Info("All Products Displayed");
+                            var query2 = db.Products.OrderBy(p => p.ProductId);
+                            foreach (var item in query2)
+                            {
+                                if(item.Discontinued == true){
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                                } else{
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                                }
+                            }
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Select a product to edit");
+                            id = int.Parse(Console.ReadLine());
+                            Console.Clear();
+                            logger.Info($"Product id {id} selected to edit");
+                            Products editProduct = db.Products.FirstOrDefault(p => p.ProductId == id);
+                            Console.WriteLine("Do you want to change the product's name? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the name");
+                                Console.WriteLine("What is the new name?");
+                                choice = Console.ReadLine();
+                                editProduct.ProductName = choice;
+                            }
+
+                            Console.WriteLine("Do you want to change the product's quantity per unit? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the quantity per unit");
+                                Console.WriteLine("What is the new quantity per unit?");
+                                choice = Console.ReadLine();
+                                editProduct.QuantityPerUnit = choice;
+                            }
+
+                            Console.WriteLine("Do you want to change the product's reorder level? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the reorder level");
+                                Console.WriteLine("What is the new reorder level?");
+                                shortChoice = short.Parse(Console.ReadLine());
+                                editProduct.ReorderLevel = shortChoice;
+                            }
+
+                            Console.WriteLine("Do you want to change the product's unit price? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the unit price");
+                                Console.WriteLine("What is the new unit price?");
+                                decimalChoice = decimal.Round(decimal.Parse(Console.ReadLine()),2);
+                                editProduct.UnitPrice = decimalChoice;
+                            }
+
+                            Console.WriteLine("Do you want to change the product's units in stock? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the units in stock");
+                                Console.WriteLine("How many units are in stock?");
+                                shortChoice = short.Parse(Console.ReadLine());
+                                editProduct.UnitsInStock = shortChoice;
+                            }
+
+                            Console.WriteLine("Do you want to change the product's units on order? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change the units on order");
+                                Console.WriteLine("How many units are on order?");
+                                shortChoice = short.Parse(Console.ReadLine());
+                                editProduct.UnitsOnOrder = shortChoice;
+                            }
+
+                            Console.WriteLine("Do you want to change the discontinued status of the product? (Y/N)");
+                            choice = Console.ReadLine();
+                            if(choice == "y" || choice == "Y"){
+                                logger.Info("Chose to change discontinued status");
+                                Console.WriteLine("Is the unit discontinued Y/N?");
+                                bool correctInput = true;
+                                do
+                                {
+                                    choice = Console.ReadLine();
+                                    if(choice == "y" || choice =="Y"){
+                                        editProduct.Discontinued = true;
+                                        correctInput = true;
+                                    } else if(choice == "n" || choice =="N"){
+                                        editProduct.Discontinued = false;
+                                        correctInput = true;
+                                    } else{
+                                        correctInput = false;
+                                    }
+                                } while (correctInput);
+                            }
+                            db.EditProduct(editProduct);
 
                             break;
                         case "3": // Display all products - all, discontinued, or acitve
@@ -147,14 +243,20 @@ namespace NorthwindConsole
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     foreach (var item in query3)
                                     {
-                                        Console.WriteLine($"{item.ProductName}");
+                                        if(item.Discontinued == true){
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.WriteLine($"{item.ProductName}");
+                                        } else{
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            Console.WriteLine($"{item.ProductName}");
+                                        }
                                     }
                                     break;
                                 case "2":
                                     logger.Info("Discontinued Products Displayed");
                                     var queryDiscontinued = db.Products.OrderBy(p => p.ProductName).Where(p => p.Discontinued == true);
                                     Console.WriteLine($"{queryDiscontinued.Count()} records returned");
-                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     foreach (var item in queryDiscontinued)
                                     {
                                         Console.WriteLine($"{item.ProductName}");
@@ -174,9 +276,38 @@ namespace NorthwindConsole
                                     logger.Error("You did not enter a valid value");
                                     break;
                             }
+                            Console.ForegroundColor = ConsoleColor.Green;
                             break;
                         case "4": // Display specific product
                             logger.Info("4) selected");
+                            var query4 = db.Products.OrderBy(p => p.ProductId);
+                            foreach (var item in query4)
+                            {
+                                if(item.Discontinued == true){
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                                } else{
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine($"{item.ProductId}) {item.ProductName}");
+                                }
+                            }
+                            Console.WriteLine("Select a product");
+                            //todo supplier and category are not showing properly --------------------------------------------------------------
+                            id = int.Parse(Console.ReadLine());
+                            Console.Clear();
+                            logger.Info($"Product id {id} selected");
+                            Products displayProduct = db.Products.FirstOrDefault(p => p.ProductId == id);
+                            Console.WriteLine($"{displayProduct.ProductName}");
+                            Console.WriteLine($"Supplier: {displayProduct.SupplierId}");
+                            Console.WriteLine($"Category: {displayProduct.CategoryId}");
+                            Console.WriteLine($"Quantity Per Unit: {displayProduct.QuantityPerUnit}");
+                            Console.WriteLine($"Unit Price: ${displayProduct.UnitPrice}");
+                            Console.WriteLine($"Units In Stock: {displayProduct.UnitsInStock}");
+                            Console.WriteLine($"Units In Order: {displayProduct.UnitsOnOrder}");
+                            Console.WriteLine($"Reorder Level: {displayProduct.ReorderLevel}");
+                            if(displayProduct.Discontinued == true){
+                                Console.WriteLine("It is discontinued");
+                            }
                             break;
                         case "5": // Add a category
                             logger.Info("5) selected");
@@ -257,7 +388,7 @@ namespace NorthwindConsole
                                 Console.WriteLine(p.ProductName);
                             }
                             break;
-                        case "9": //Display all Categories and their related products
+                        case "9": //Display all Categories and their related products (active)
                             logger.Info("9) selected");
                             //var db = new NorthwindConsole_31_mdoContext();
                             var query9 = db.Categories.Include("Products").OrderBy(p => p.CategoryId);
@@ -266,7 +397,9 @@ namespace NorthwindConsole
                                 Console.WriteLine($"{item.CategoryName}");
                                 foreach (Products p in item.Products)
                                 {
-                                    Console.WriteLine($"\t{p.ProductName}");
+                                    if(p.Discontinued == false){
+                                        Console.WriteLine($"\t{p.ProductName}");
+                                    }
                                 }
                             }
                             break;

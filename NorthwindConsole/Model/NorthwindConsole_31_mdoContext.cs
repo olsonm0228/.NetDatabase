@@ -35,6 +35,7 @@ namespace NorthwindConsole.Model
         public void EditCategory(Categories updatedCategory){
             Categories category = this.Categories.Find(updatedCategory.CategoryId);
             category.CategoryName = updatedCategory.CategoryName;
+            category.Description = updatedCategory.Description;
             this.SaveChanges();
         }
         public void AddProduct(Products product){
@@ -44,6 +45,12 @@ namespace NorthwindConsole.Model
         public void EditProduct(Products updatedProduct){
             Products product = this.Products.Find(updatedProduct.CategoryId);
             product.ProductName = updatedProduct.ProductName;
+            product.Discontinued = updatedProduct.Discontinued;
+            product.QuantityPerUnit = updatedProduct.QuantityPerUnit;
+            product.ReorderLevel = updatedProduct.ReorderLevel;
+            product.UnitPrice = updatedProduct.UnitPrice;
+            product.UnitsInStock = updatedProduct.UnitsInStock;
+            product.UnitsOnOrder = updatedProduct.UnitsOnOrder;
             this.SaveChanges();
         }
 
